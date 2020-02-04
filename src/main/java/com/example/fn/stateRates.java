@@ -13,8 +13,8 @@ public class stateRates {
         return state;
     }
 
-    public void setRate(Integer a){
-      rate = a;
+    public void setRate(String a){
+        rate = Double.parseDouble(a);
     }
 
     public double getRate(){

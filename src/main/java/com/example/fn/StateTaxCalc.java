@@ -5,9 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+* Class StateTaxCalc
+* Purpose: Input a state name and price. Search on State name for tax rate. Return total cost of item.
+ */
+
+
 public class StateTaxCalc {
     //variable to hold state name and rate
-    public List<List<String>> rateCard = new ArrayList<>();
+    public List<List<stateRates>> rateCard = new ArrayList<>();
 
     public static class Input {
         public String state;
@@ -27,8 +33,7 @@ public class StateTaxCalc {
      */
     private void loadStateTaxRates() {
         try {
-            List<List<String>> rates = new ArrayList<>();
-             try (Scanner scanner = new Scanner(new File("stateRates.csv"));) {
+             try (Scanner scanner = new Scanner(new File("/home/cbaber/fn_test/stateTaxCalc/src/main/java/com/example/fn/stateRates.csv"))) {
                 while (scanner.hasNextLine()) {
                     rateCard.add(getRecordFromLine(scanner.nextLine()));
                 }
@@ -40,14 +45,36 @@ public class StateTaxCalc {
     }
 
     /*
+    * Filter through to get the state rate from the array.
+
+    public double getRate(String st) {
+         stateRates a = rateCard.stream().filter()
+         return a.getRate();
+    }
+    */
+    /*
     Method to process state name and rate, columes into single List
      */
-    private List<String>  getRecordFromLine(String line) {
-        List<String> temp = new ArrayList<String>();
+    private List<stateRates> getRecordFromLine(String line) {
+        List<stateRates> temp = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)) {
+            stateRates holder = new stateRates();
             rowScanner.useDelimiter(",");
+            int i = 1;
             while (rowScanner.hasNext()) {
-                temp.add(rowScanner.next());
+                switch (i) {
+                    case 1:
+                        holder.setState(rowScanner.next());
+                        i++;
+                        break;
+                    case 2:
+                        holder.setRate(rowScanner.next());
+                        i=0;
+                        break;
+                    default:
+                        //do nothing
+                }
+                temp.add(holder);
             }
         }
         catch (Exception e) {
@@ -69,12 +96,17 @@ public class StateTaxCalc {
         return result;
     }
 
+    /*
+    Main method is purely to test
+     */
     public static void main(String[] args)
     {
         System.out.println("Testing the core .csv read and processing");
         StateTaxCalc a = new StateTaxCalc();
         a.loadStateTaxRates();
-        System.out.println(a.rateCard.size());
+        System.out.println("Total size of Rate Card: "+ a.rateCard.size());
+       // System.out.println(a.getRate("texas"));
+
     }
 
 }
