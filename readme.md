@@ -17,3 +17,9 @@ Ex. Output Payload
      "tax":.25,
      "total_cost":5.25}
     ---
+    
+To find url for curl or postman issue:
+
+---
+fn inspect function java-app statetaxcalc
+---

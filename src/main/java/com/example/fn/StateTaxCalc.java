@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 /*
 * Class StateTaxCalc
@@ -13,7 +14,7 @@ import java.util.Scanner;
 
 public class StateTaxCalc {
     //variable to hold state name and rate
-    public List<List<stateRates>> rateCard = new ArrayList<>();
+    public List<stateRates> rateCard = new ArrayList<>();
 
     public static class Input {
         public String state;
@@ -35,7 +36,7 @@ public class StateTaxCalc {
         try {
              try (Scanner scanner = new Scanner(new File("/home/cbaber/fn_test/stateTaxCalc/src/main/java/com/example/fn/stateRates.csv"))) {
                 while (scanner.hasNextLine()) {
-                    rateCard.add(getRecordFromLine(scanner.nextLine()));
+                    getRecordFromLine(scanner.nextLine());
                 }
             }
         }
@@ -45,18 +46,21 @@ public class StateTaxCalc {
     }
 
     /*
-    * Filter through to get the state rate from the array.
-
+    * Filter through to get the state rate from the List.
+*/
     public double getRate(String st) {
-         stateRates a = rateCard.stream().filter()
-         return a.getRate();
+        for (stateRates a : rateCard) {
+            if (a.getState().equalsIgnoreCase(st)) {
+                return a.getRate();
+            }
+        }
+         return -1;
     }
-    */
+
     /*
-    Method to process state name and rate, columes into single List
+    Method to process state name and rate, colums into single List
      */
-    private List<stateRates> getRecordFromLine(String line) {
-        List<stateRates> temp = new ArrayList<>();
+    private void getRecordFromLine(String line) {
         try (Scanner rowScanner = new Scanner(line)) {
             stateRates holder = new stateRates();
             rowScanner.useDelimiter(",");
@@ -74,13 +78,13 @@ public class StateTaxCalc {
                     default:
                         //do nothing
                 }
-                temp.add(holder);
-            }
+               }
+            rateCard.add(holder);
         }
         catch (Exception e) {
             System.out.println("Error parsing rows into array in getRecordFromLine: "+e.toString());
         }
-        return temp;
+
     }
 
     /*
@@ -105,7 +109,7 @@ public class StateTaxCalc {
         StateTaxCalc a = new StateTaxCalc();
         a.loadStateTaxRates();
         System.out.println("Total size of Rate Card: "+ a.rateCard.size());
-       // System.out.println(a.getRate("texas"));
+        System.out.println(a.getRate("utah"));
 
     }
 
