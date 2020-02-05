@@ -1,6 +1,8 @@
 package com.example.fn;
 
 import java.io.File;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,6 +31,7 @@ public class StateTaxCalc {
         public double total_cost;
     }
 
+
     /*
     Method to read .csv for state name and rate rows, send row to getRecordFromLine() method.
      */
@@ -54,7 +57,7 @@ public class StateTaxCalc {
                 return a.getRate();
             }
         }
-         return -1;
+        return -1;
     }
 
     /*
@@ -91,26 +94,40 @@ public class StateTaxCalc {
     Fn Result method gathers and returns json result
      */
     public Result calcTotalCost(Input input) {
-        Result result = new Result();
-        result.state = input.state;
-        result.price = input.price;
-        result.tax_rate = .05;
-        result.tax = input.price*(.05);
-        result.total_cost = input.price*(1+.05);
-        return result;
+        try {
+            DecimalFormat twoDForm = new DecimalFormat("#.00");
+            twoDForm.setRoundingMode(RoundingMode.UP);
+            this.loadStateTaxRates();
+            if (Double.compare(this.getRate(input.state),-1) == 0) {
+                throw new IllegalArgumentException("Value entered for State Rate Lookup could not be found.");
+            }
+
+            Result result = new Result();
+            result.state = input.state;
+            result.price = input.price;
+            result.tax_rate = getRate(input.state);
+            result.tax = Double.parseDouble(twoDForm.format(input.price * result.tax_rate));
+            result.total_cost = Double.parseDouble(twoDForm.format(input.price * (1.0 + getRate(input.state))));
+
+            return result;
+        }
+        catch (IllegalArgumentException e) {
+            Result result = new Result();
+            result.state = e.toString();
+           return result;
+        }
     }
 
     /*
     Main method is purely to test
-     */
+
     public static void main(String[] args)
     {
         System.out.println("Testing the core .csv read and processing");
         StateTaxCalc a = new StateTaxCalc();
         a.loadStateTaxRates();
         System.out.println("Total size of Rate Card: "+ a.rateCard.size());
-        System.out.println(a.getRate("utah"));
-
-    }
-
+        System.out.println(a.getRate("Virginia"));
+     }
+ */
 }

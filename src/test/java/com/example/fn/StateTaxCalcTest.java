@@ -15,7 +15,7 @@ public class StateTaxCalcTest {
         testing.thenRun(StateTaxCalc.class,"calcTotalCost");
 
         FnResult result = testing.getOnlyResult();
-        assertEquals("{\"state\":\"Virginia\",\"price\":5.0,\"tax_rate\":0.05,\"tax\":0.25,\"total_cost\":5.25}", result.getBodyAsString());
+        assertEquals("{\"state\":\"Virginia\",\"price\":5.0,\"tax_rate\":0.043,\"tax\":0.22,\"total_cost\":5.22}", result.getBodyAsString());
     }
 
 }
