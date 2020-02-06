@@ -17,9 +17,51 @@ Ex. Output Payload
      "tax":.25,
      "total_cost":5.25}
     ---
-    
-To find url for curl or postman issue:
 
----
-fn inspect function java-app statetaxcalc
----
+### Follow Steps below to deploy the function to Fn:
+
+   - Clone the git repo
+
+    ---
+    mkdir stateTaxCalc
+    cd stateTaxCalc
+    git clone https://github.com/chipbaber/fn_Java_Function.git
+     ---
+
+   - Start Fn, then open a new terminal window
+
+    ---
+    cd ..
+    fn start
+    ---
+    
+   - Build the project in a new directory
+
+    ---
+    cd stateRates
+    fn --verbose build
+    ---
+
+   - Create a application for the function
+
+    ---
+    fn create app java-app
+    ---
+    
+   - Deploy Java App
+
+    ---
+    fn --verbose deploy --app java-app --local
+    ---
+
+   - To find url for curl or postman issue:
+
+    ---
+    fn inspect function java-app statetaxcalc
+    ---
+    
+   - Inspect and copy your endpoint: Ex. http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004
+    
+    ---
+     fn inspect function java-app statetaxcalc
+    ---

@@ -37,7 +37,10 @@ public class StateTaxCalc {
      */
     private void loadStateTaxRates() {
         try {
-             try (Scanner scanner = new Scanner(new File("/home/cbaber/fn_test/stateTaxCalc/src/main/java/com/example/fn/stateRates.csv"))) {
+             try (
+                 Scanner scanner = new Scanner(new File(
+                         getClass().getClassLoader().getResource("stateRates.csv").getFile()
+                 ))) {
                 while (scanner.hasNextLine()) {
                     getRecordFromLine(scanner.nextLine());
                 }
@@ -124,10 +127,11 @@ public class StateTaxCalc {
     public static void main(String[] args)
     {
         System.out.println("Testing the core .csv read and processing");
-        StateTaxCalc a = new StateTaxCalc();
-        a.loadStateTaxRates();
-        System.out.println("Total size of Rate Card: "+ a.rateCard.size());
-        System.out.println(a.getRate("Virginia"));
+        //StateTaxCalc a = new StateTaxCalc();
+        //a.loadStateTaxRates();
+        //System.out.println("Total size of Rate Card: "+ a.rateCard.size());
+        //System.out.println(a.getRate("Virginia"));
+      //  System.out.println(getClass().getResource("/stateRates.csv"));
      }
- */
+*/
 }
