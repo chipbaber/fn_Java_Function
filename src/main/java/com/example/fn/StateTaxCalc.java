@@ -1,6 +1,7 @@
 package com.example.fn;
 
 import java.io.File;
+import java.io.InputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -37,14 +38,12 @@ public class StateTaxCalc {
      */
     private void loadStateTaxRates() {
         try {
-             try (
-                 Scanner scanner = new Scanner(new File(
-                         getClass().getClassLoader().getResource("stateRates.csv").getFile()
-                 ))) {
+                     InputStream inputCSV = getClass().getClassLoader().getResourceAsStream("stateRates.csv");
+                     Scanner scanner = new Scanner(inputCSV);
                 while (scanner.hasNextLine()) {
                     getRecordFromLine(scanner.nextLine());
                 }
-            }
+
         }
         catch (Exception e) {
            System.out.println("Error loading State Rates: "+e.toString());
@@ -102,7 +101,7 @@ public class StateTaxCalc {
             twoDForm.setRoundingMode(RoundingMode.UP);
             this.loadStateTaxRates();
             if (Double.compare(this.getRate(input.state),-1) == 0) {
-                throw new IllegalArgumentException("Value entered for State Rate Lookup could not be found.");
+                throw new IllegalArgumentException("Value entered for State Rate Lookup could not be found. Size of RateCard is: "+rateCard.size());
             }
 
             Result result = new Result();
@@ -127,10 +126,10 @@ public class StateTaxCalc {
     public static void main(String[] args)
     {
         System.out.println("Testing the core .csv read and processing");
-        //StateTaxCalc a = new StateTaxCalc();
-        //a.loadStateTaxRates();
-        //System.out.println("Total size of Rate Card: "+ a.rateCard.size());
-        //System.out.println(a.getRate("Virginia"));
+        StateTaxCalc a = new StateTaxCalc();
+        a.loadStateTaxRates();
+        System.out.println("Total size of Rate Card: "+ a.rateCard.size());
+        System.out.println(a.getRate("Virginia"));
       //  System.out.println(getClass().getResource("/stateRates.csv"));
      }
 */

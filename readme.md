@@ -17,6 +17,12 @@ Ex. Output Payload
      "tax":.25,
      "total_cost":5.25}
     ---
+###Command to start UI
+    ---
+    docker run --rm -it --link fnserver:api -p 4000:4000 -e "FN_API_URL=http://api:8080" fnproject/ui
+    ---
+    
+  - Access via http://localhost:4000/
 
 ### Follow Steps below to deploy the function to Fn:
 
@@ -60,8 +66,8 @@ Ex. Output Payload
     fn inspect function java-app statetaxcalc
     ---
     
-   - Inspect and copy your endpoint: Ex. http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004
+   - Example endpoint http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004 Test with postman or curl command.
     
     ---
-     fn inspect function java-app statetaxcalc
+     curl -X POST -d '{"state":"Texas","price": 5.00}' http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004
     ---
