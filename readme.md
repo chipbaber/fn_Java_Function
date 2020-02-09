@@ -13,9 +13,9 @@ Ex. Output Payload
     ---
     {"state":"Virginia",
      "price":5.0,
-     "tax_rate":.05,
-     "tax":.25,
-     "total_cost":5.25}
+     "tax_rate":.043,
+     "tax":.22,
+     "total_cost":5.22}
     ---
 
 
@@ -54,23 +54,50 @@ Ex. Output Payload
    - Create a application for the function
 
     ---
-    fn create app rateCard http statetax
+    fn create app rateCard 
     ---
     
-   - Deploy Java App
+   - Deploy Java App, app name is defined in app.yaml, trigger to function in func.yaml
 
     ---
-    fn --verbose deploy --app rateCard --local
+    fn --verbose deploy --create-app --all --local
     ---
+
+   - View app and trigger
+   
+    ---
+    fn list apps
+    fn list triggers ratecard
+    --- 
 
    - To find url for curl or postman issue:
 
     ---
-    fn inspect function rateCard statetaxcalc
+    fn inspect function ratecard statetaxcalc
     ---
     
-   - Example endpoint http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004 Test with postman or curl command.
+   - Example detailed endpoint http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004 Test with postman or curl command.
     
     ---
      curl -X POST -d '{"state":"Texas","price": 5.00}' http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004
+    ---
+    
+   - You can also access via pretty url as well. 
+   
+   ---
+    curl -X POST -d '{"state":"Texas","price": 5.00}' http://localhost:8080/t/ratecard/ratecard
+   ---
+    
+   - Practice common commands
+   
+    ---
+    fn list functions rateCard
+    fn list apps
+    ---
+    
+   - Cleanup env. 
+   
+    ---
+    fn delete function rateCard statetaxcalc
+    fn delete app rateCard
     ---
