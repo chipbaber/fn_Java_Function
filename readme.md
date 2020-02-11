@@ -74,6 +74,8 @@ Ex. Output Payload
 
     ---
     fn inspect function ratecard statetaxcalc
+    or 
+    fn list triggers ratecard
     ---
     
    - Example detailed endpoint http://localhost:8080/invoke/01E086P4FGNG8G00GZJ0000004 Test with postman or curl command.
